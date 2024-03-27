@@ -25,25 +25,20 @@ public:
         if ((x <= 1920 or y <= 1920) and (x >= 0 or y >= 0)) {
             this->x = x;
             this->y = y;
-            std::cout << "[CONSOLE INFO] "<<"[FUNC::Set_cord]"<< std::endl;
+            std::cout << "[CONSOLE INFO] [FUNC::Set_cord]"<< std::endl;
         }
         else {
-            std::cout << "[CONSOLE INFO] "<<"[ERROR::Bad_cord]" << std::endl;
+            std::cout << "[CONSOLE INFO] [ERROR::Bad_cord]" << std::endl;
         }
     }
 
     void Get_Pos() {
         std::cout << "X = " << this->x << std::endl;
         std::cout << "Y = " << this->y << std::endl;
-        std::cout << "[CONSOLE INFO] " << "[FUNC::Get_Pos]" << std::endl;
+        std::cout << "[CONSOLE INFO] [FUNC::Get_Pos]" << std::endl;
     }
 
-    void Current_info() {
-        std::cout << "X = " << this->x << std::endl;
-        std::cout << "Y = " << this->y << std::endl;
-        std::cout << "[CONSOLE INFO] " << "[FUNC::Current_info]" << std::endl;
-    }
-
+    
     void Move(std::string Move) {
         if (Move == "N") {
             if (this->x < 1920)
@@ -92,7 +87,7 @@ public:
     ~Point() {
         std::cout<< "[CONSOLE INFO] " << "~Point()" << std::endl;
     }
-protected:
+public:
     int x;
     int y;
 
@@ -121,16 +116,71 @@ public:
         std::cout << "[CONSOLE INFO] " << "[FUNC::Get_Radius]" << std::endl;
         return radius;
     }
-    void Current_info() {
-        Get_Pos();
-        Get_Radius();
-    }
     ~Circle() {
         std::cout << "[CONSOLE INFO] " << "~Circle()" << std::endl;
     }
 };
 
+class Sector {
+protected:
+    Point *PStart;
+    Point *PEnd;
+public:
+    Sector() : PStart( new Point()), PEnd( new Point()) {
+        std::cout << "[CONSLOE INFO] Sector()" << std::endl;
+    }
+    Sector(Point &PS, Point &PE ) : PStart(new Point(PS)), PEnd( new Point(PE)) {
+        std::cout << "[CONSLOE INFO] Sector(Point PS, Point PE )" << std::endl;
+    }
+    Sector(const Sector& C) : PStart(new Point(*C.PStart)), PEnd(new Point(*C.PEnd)) {
+        std::cout << "[CONSLOE INFO] Sector(const Sector& C)" << std::endl;
+    }
 
+    bool isPerp(const Sector& S) {
+        std::cout << "[CONSLOE INFO] isPerp(const Sector& S)" << std::endl;
+        if ((this->PEnd->x) - (this->PStart->x)*((S.PEnd->x)-(S.PStart->x))+ (this->PEnd->y) - (this->PStart->y) * (S.PEnd->y - S.PStart->y)==0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    void SetPoints(Point Pnew1,Point Pnew2) {
+        *PStart = Pnew1;
+        *PEnd = Pnew2;
+        std::cout << "[CONSLOE INFO] SetPoints(Point Pnew1,Point Pnew2)" << std::endl;
+    }
+    void GetPoints() {
+        std::cout << "Pstart X = " << PStart->x << std::endl;
+        std::cout << "Pstart Y = " << PStart->x << std::endl;
+        std::cout << "PEnd X = " << PEnd->x << std::endl;
+        std::cout << "PEnd Y = " << PEnd->y << std::endl;
+    }
+
+    ~Sector() {
+        std::cout << "[CONSOLE INFO] ~Sector() Start" << std::endl;
+        delete PStart;
+        delete PEnd;
+        std::cout << "[CONSOLE INFO] ~Sector() End" << std::endl;
+    }
+};
+/*
+protected:
+    Point PStart;
+    Point PEnd;
+public:
+    Sector() : PStart(), PEnd() {
+        std::cout << "[CONSLOE INFO] Sector()" << std::endl;
+    }
+    Sector(Point &PS, Point &PE ) : PStart(PS), PEnd(PE) {
+        std::cout << "[CONSLOE INFO] Sector(Point PS, Point PE )" << std::endl;
+    }
+    Sector(const Sector& C) : PStartC.PStart), PEnd(C.PEnd) {
+        std::cout << "[CONSLOE INFO] Sector(const Sector& C)" << std::endl;
+    }
+*/
+/*
 int main()
 {
     {
@@ -159,9 +209,20 @@ int main()
 
     P_list[2] = new Circle(C);
     C.Get_Pos();
-    C.Current_info();
     delete P_list[0];
     delete P_list[2];
 }
+
+*/
+
+int main(){
+    Point P1(5,3);
+    Point P2(3, 5);
+    Sector s1(P1,P2);
+    Sector s2(s1);
+    s1.GetPoints();
+}
+
+
 
 
